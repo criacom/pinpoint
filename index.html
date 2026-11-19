@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faça seu Pinpoint! · CRIACOM Microjogos Vol. 13</title>
+<meta name="description" content="Microjogo Vol. 13 do CRIACOM: planeje, registre e consequencie uma mudança comportamental na sua vida. Observar, intervir, observar.">
+<link rel="icon" href="img/ok2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0d; --paper:#ffffff; --grid:#f4f4f4;
+  --red:#e10f2a; --blue:#1d4fd8; --yellow:#ffd21f; --green:#14a44d;
+  --muted:#5b5b66; --soft:#f2f2f4;
+  --pix:'Press Start 2P', monospace; --title:'Russo One', 'Arial Black', sans-serif; --body:'IBM Plex Sans', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:var(--body); color:var(--ink); font-size:16px; line-height:1.5;
+  background-color:#000;
+  background-image:
+    linear-gradient(var(--grid) 2px, transparent 2px),
+    linear-gradient(90deg, var(--grid) 2px, transparent 2px);
+  background-size:34px 34px; background-position:-1px -1px;
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit}
+a{color:var(--blue)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px 60px}
+
+/* ---------- capa / tela de título ---------- */
+#cover{position:fixed;inset:0;z-index:50;overflow:auto;
+  background-color:#000;
+  background-image:linear-gradient(#fff 3px,transparent 3px),linear-gradient(90deg,#fff 3px,transparent 3px);
+  background-size:42px 42px;}
+.box{max-width:640px;margin:24px auto;background:#000;border:4px solid #fff;outline:4px solid #000;box-shadow:0 0 0 8px #fff}
+.box-top{display:flex;align-items:stretch;border-bottom:4px solid #fff}
+.box-brand{background:#fff;color:#000;font-family:var(--title);font-size:22px;padding:8px 14px;letter-spacing:1px;display:flex;align-items:center}
+.box-brand b{color:var(--red)}
+.box-series{flex:1;background:var(--red);color:#fff;font-family:var(--pix);font-size:10px;display:flex;align-items:center;justify-content:flex-end;padding:8px 12px;line-height:1.6;text-align:right}
+.box-art{position:relative;background:#fff;margin:18px;border:4px solid #fff;outline:3px solid var(--red)}
+.box-art img{display:block;width:100%;height:auto;image-rendering:pixelated}
+.box-stripe{position:absolute;left:-10px;right:-10px;bottom:-22px;transform:rotate(-3deg);background:var(--blue);border:3px solid #fff;padding:6px 0;text-align:center;font-family:var(--pix);font-size:10px;color:#fff;letter-spacing:1px}
+.box-title{padding:30px 18px 6px;text-align:center}
+.box-title h1{margin:0;font-family:var(--title);font-style:italic;font-weight:400;color:#fff;font-size:clamp(34px,8vw,58px);line-height:1;letter-spacing:1px;text-shadow:4px 4px 0 var(--red),8px 8px 0 var(--blue)}
+.box-title p{color:#fff;font-family:var(--pix);font-size:10px;margin:18px 0 0;line-height:1.8}
+.box-start{text-align:center;padding:18px 18px 8px}
+.box-foot{display:flex;justify-content:space-between;gap:8px;border-top:4px solid #fff;padding:10px 14px;color:#fff;font-family:var(--pix);font-size:8px;line-height:1.8}
+.blink{animation:blink 1s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+.start-form{display:grid;gap:10px;max-width:420px;margin:0 auto 10px;text-align:left}
+.start-form label{color:#fff;font-family:var(--pix);font-size:9px}
+.start-form input,.start-form select{width:100%;padding:10px;border:3px solid #fff;background:#111;color:#fff}
+
+/* ---------- botões ---------- */
+.btn{font-family:var(--pix);font-size:11px;line-height:1.4;border:3px solid var(--ink);background:var(--yellow);color:var(--ink);padding:12px 16px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);text-transform:uppercase}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.red{background:var(--red);color:#fff}
+.btn.blue{background:var(--blue);color:#fff}
+.btn.white{background:#fff}
+.btn.small{font-size:9px;padding:8px 10px;box-shadow:3px 3px 0 var(--ink)}
+.btn.big{font-size:16px;padding:16px 26px}
+.cover-btn{border-color:#fff;box-shadow:5px 5px 0 #fff}
+
+/* ---------- HUD ---------- */
+header.hud{position:sticky;top:0;z-index:20;background:#000;border-bottom:4px solid #fff}
+.hud-in{max-width:1080px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#fff}
+.logo{font-family:var(--title);font-style:italic;font-size:20px;letter-spacing:.5px;white-space:nowrap;cursor:pointer}
+.logo small{font-family:var(--pix);font-style:normal;font-size:8px;background:var(--red);padding:3px 5px;margin-left:6px;vertical-align:middle}
+.stat{font-family:var(--pix);font-size:9px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.xpbar{width:120px;height:12px;border:2px solid #fff;background:#222;position:relative}
+.xpbar i{position:absolute;inset:0 auto 0 0;background:var(--yellow);width:0%}
+.hud .spacer{flex:1}
+.iconbtn{background:none;border:2px solid #fff;color:#fff;font-family:var(--pix);font-size:9px;padding:6px 8px;cursor:pointer}
+nav.tabs{max-width:1080px;margin:0 auto;display:flex;gap:0;overflow-x:auto;padding:0 16px;scrollbar-width:thin}
+nav.tabs button{flex:0 0 auto;font-family:var(--pix);font-size:9px;background:#000;color:#fff;border:2px solid #fff;border-bottom:0;padding:10px 12px;margin-right:4px;cursor:pointer}
+nav.tabs button.on{background:#fff;color:#000}
+nav.tabs button .dot{display:inline-block;width:7px;height:7px;background:var(--red);margin-left:6px;vertical-align:middle}
+
+/* ---------- painéis ---------- */
+.screen{display:none;padding-top:22px}
+.screen.on{display:block}
+.panel{background:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--red);padding:20px;margin-bottom:22px}
+.panel.blue{box-shadow:8px 8px 0 var(--blue)}
+.panel.yellow{box-shadow:8px 8px 0 var(--yellow)}
+.ptitle{display:flex;align-items:center;gap:10px;margin:-20px -20px 16px;padding:10px 16px;background:var(--ink);color:#fff;font-family:var(--pix);font-size:12px;line-height:1.5}
+.ptitle .tag{background:var(--red);padding:4px 6px;font-size:9px}
+h2{font-family:var(--title);font-weight:400;font-size:26px;margin:0 0 6px;line-height:1.15}
+h3{font-family:var(--pix);font-size:11px;margin:18px 0 8px;line-height:1.6}
+.lead{color:var(--muted);margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-weight:700;font-size:14px}
+.field .hint{font-size:13px;color:var(--muted)}
+.field input,.field select,.field textarea{border:3px solid var(--ink);padding:9px 10px;background:#fff;width:100%;border-radius:0}
+.field textarea{min-height:76px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--yellow);outline-offset:0}
+.field.req label::after{content:" ●";color:var(--red);font-size:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-block;font-family:var(--pix);font-size:8px;padding:5px 7px;border:2px solid var(--ink);background:#fff}
+.pill.ok{background:var(--green);color:#fff}
+.pill.no{background:var(--red);color:#fff}
+.pill.part{background:var(--yellow)}
+.pill.na{background:#ddd}
+
+/* mapa de fases */
+.stagemap{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:22px}
+@media (max-width:640px){.stagemap{grid-template-columns:repeat(5,minmax(58px,1fr));overflow-x:auto}}
+.stage{background:#000;color:#fff;border:3px solid #fff;padding:10px 8px;cursor:pointer;text-align:left;font-family:var(--pix);font-size:8px;line-height:1.6;position:relative;min-height:84px}
+.stage b{display:block;font-size:13px;margin-bottom:4px;color:var(--yellow)}
+.stage.on{background:var(--red)}
+.stage .meter{position:absolute;left:8px;right:8px;bottom:8px;height:6px;background:#333;border:1px solid #fff}
+.stage .meter i{display:block;height:100%;background:var(--yellow)}
+.stage.done::after{content:"★";position:absolute;right:6px;top:4px;color:var(--yellow);font-size:12px}
+
+/* NPC */
+.npc{display:flex;gap:16px;align-items:flex-end;margin-bottom:22px}
+.npc img{width:96px;height:auto;flex:0 0 auto;image-rendering:pixelated;background:#fff;border:3px solid var(--ink);padding:6px}
+.npc .bubble{flex:1;background:#fff;border:4px solid var(--ink);padding:14px 16px;position:relative;box-shadow:6px 6px 0 var(--blue)}
+.npc .bubble::before{content:"";position:absolute;left:-16px;bottom:18px;border:8px solid transparent;border-right-color:var(--ink)}
+.npc .who{font-family:var(--pix);font-size:9px;color:var(--red);margin-bottom:6px}
+.npc .say{min-height:24px}
+@media (max-width:560px){.npc img{width:70px}}
+
+/* exemplo do professor */
+details.ex{border:3px dashed var(--ink);background:var(--soft);padding:10px 14px;margin:6px 0 16px}
+details.ex summary{cursor:pointer;font-family:var(--pix);font-size:9px;line-height:1.6}
+details.ex dl{margin:10px 0 0}
+details.ex dt{font-weight:700;font-size:14px;margin-top:8px}
+details.ex dd{margin:0}
+
+/* detector de pinpoint vago */
+.detector{border:3px solid var(--ink);padding:12px 14px;margin:6px 0 16px;background:#fffbe6}
+.detector .bar{height:14px;border:2px solid var(--ink);background:#eee;margin:8px 0}
+.detector .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));transition:width .3s}
+.detector ul{margin:6px 0 0;padding-left:18px}
+.detector li{font-size:14px}
+
+/* registro */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{border:2px solid var(--ink);padding:6px 8px;text-align:left;vertical-align:top}
+.tbl th{background:var(--ink);color:#fff;font-family:var(--pix);font-size:8px;line-height:1.5}
+.tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
+.tbl img{width:54px;height:54px;object-fit:cover;border:2px solid var(--ink)}
+.scroll{overflow-x:auto}
+.seg{display:inline-flex;border:3px solid var(--ink)}
+.seg button{border:0;border-right:3px solid var(--ink);background:#fff;padding:8px 12px;cursor:pointer;font-family:var(--pix);font-size:9px}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--ink);color:#fff}
+
+/* gráfico */
+canvas.chart{width:100%;height:auto;border:3px solid var(--ink);background:#fff;display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media (max-width:640px){.stats{grid-template-columns:1fr}}
+.statbox{border:3px solid var(--ink);padding:10px 12px}
+.statbox .k{font-family:var(--pix);font-size:8px;line-height:1.6}
+.statbox .v{font-family:var(--title);font-size:26px}
+.statbox .s{font-size:13px;color:var(--muted)}
+
+/* conquistas */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.badge{border:3px solid var(--ink);padding:12px;background:#fff;text-align:center}
+.badge .ico{font-size:30px;line-height:1;margin-bottom:6px;filter:grayscale(0)}
+.badge .n{font-family:var(--pix);font-size:9px;line-height:1.5}
+.badge .d{font-size:13px;color:var(--muted);margin-top:6px}
+.badge.locked{background:#eee;opacity:.6}
+.badge.locked .ico{filter:grayscale(1)}
+.levels{display:flex;gap:6px;flex-wrap:wrap}
+.levels span{font-family:var(--pix);font-size:8px;border:2px solid var(--ink);padding:6px}
+.levels span.on{background:var(--yellow)}
+
+/* loja */
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.item{border:3px solid var(--ink);padding:12px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.item .n{font-weight:700}
+.item .p{font-family:var(--pix);font-size:10px}
+.coins{font-family:var(--pix);font-size:22px}
+
+/* mural */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.cart{border:4px solid var(--ink);background:#fff;box-shadow:6px 6px 0 var(--ink);display:flex;flex-direction:column}
+.cart .top{background:#000;color:#fff;padding:8px 10px;font-family:var(--pix);font-size:8px;display:flex;justify-content:space-between;gap:8px;line-height:1.6;border-bottom:4px solid var(--red)}
+.cart .top.prof{border-bottom-color:var(--yellow)}
+.cart .body{padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cart .who{font-family:var(--title);font-size:20px;line-height:1.1}
+.cart .k{font-family:var(--pix);font-size:7px;color:var(--red);margin-top:6px;line-height:1.5}
+.cart .foot{padding:8px 10px;border-top:3px solid var(--ink);display:flex;gap:8px;justify-content:space-between;align-items:center}
+.cart svg{width:100%;height:auto;border:2px solid var(--ink);background:#fff}
+.privacy{display:grid;gap:10px}
+.toggle{display:flex;align-items:flex-start;gap:12px;border:3px solid var(--ink);padding:12px;cursor:pointer;background:#fff}
+.toggle input{width:22px;height:22px;flex:0 0 auto;margin-top:2px;accent-color:var(--red)}
+.toggle b{display:block}
+.toggle span{font-size:14px;color:var(--muted)}
+.code{width:100%;min-height:90px;border:3px solid var(--ink);font-family:monospace;font-size:12px;padding:8px;word-break:break-all}
+.notice{border-left:8px solid var(--blue);background:#eef3ff;padding:10px 14px;margin:10px 0;font-size:14px}
+.notice.red{border-left-color:var(--red);background:#fff0f2}
+
+/* toasts e modal */
+#toasts{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;gap:8px;max-width:320px}
+.toast{background:#000;color:#fff;border:3px solid #fff;outline:3px solid #000;padding:10px 12px;font-family:var(--pix);font-size:9px;line-height:1.6;animation:pop .25s ease-out}
+.toast.gold{background:var(--yellow);color:#000;border-color:#000}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.float{position:fixed;z-index:70;font-family:var(--pix);font-size:14px;color:var(--yellow);text-shadow:2px 2px 0 #000;pointer-events:none;animation:floatup 1.2s ease-out forwards}
+@keyframes floatup{to{transform:translateY(-70px);opacity:0}}
+#modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:16px}
+#modal.on{display:flex}
+#modal .mbox{background:#fff;border:4px solid #000;box-shadow:8px 8px 0 var(--yellow);max-width:560px;width:100%;max-height:90vh;overflow:auto}
+#modal .mhead{background:#000;color:#fff;font-family:var(--pix);font-size:11px;padding:10px 14px;line-height:1.6}
+#modal .mbody{padding:16px}
+#modal .mbody img{width:110px;float:left;margin:0 14px 8px 0;image-rendering:pixelated}
+#modal .mfoot{padding:0 16px 16px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;clear:both}
+
+footer{color:#fff;text-align:center;font-family:var(--pix);font-size:8px;line-height:2;padding:20px 16px 40px;background:#000;border-top:4px solid #fff}
+footer a{color:var(--yellow)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media print{body{background:#fff}header,nav,footer,#toasts,.npc{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ================= CAPA ================= -->
+<div id="cover">
+  <div class="box">
+    <div class="box-top">
+      <div class="box-brand">CRIA<b>COM</b></div>
+      <div class="box-series">MICROJOGOS<br>VOL. 13</div>
+    </div>
+    <div class="box-art">
+      <img src="img/cover.png" alt="Boatacon, de jaleco, aponta para um alvo atingido no centro; ao lado, colunas de tijolos sobem como pontos de um gráfico observar–intervir–observar.">
+      <div class="box-stripe">OBSERVAR · INTERVIR · OBSERVAR</div>
+    </div>
+    <div class="box-title">
+      <h1>FAÇA SEU<br>PINPOINT!</h1>
+      <p>1 JOGADOR · SUA VIDA COMO LABORATÓRIO</p>
+    </div>
+    <div class="box-start">
+      <div class="start-form" id="startForm">
+        <label for="inName">COMO QUER SER CHAMADO(A)?</label>
+        <input id="inName" maxlength="40" placeholder="Seu nome ou apelido" autocomplete="nickname">
+        <label for="inTurma">TURMA</label>
+        <select id="inTurma">
+          <option value="">Prefiro não dizer</option>
+          <option>T1000 (quinta)</option>
+          <option>T2000 (terça)</option>
+          <option>Outra</option>
+        </select>
+      </div>
+      <p style="margin:14px 0"><button class="btn big red cover-btn" id="btnStart"><span class="blink">▶</span> PRESS START</button></p>
+    </div>
+    <div class="box-foot">
+      <span>6PAC099 · UEL · 2026</span>
+      <span>Prof. Hernando B. Neves Filho</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HUD ================= -->
+<header class="hud" id="hud">
+  <div class="hud-in">
+    <div class="logo" id="logo" title="Voltar à capa">Faça seu Pinpoint!<small>VOL.13</small></div>
+    <div class="spacer"></div>
+    <div class="stat" title="Nível"><span id="hudLvl">NV 1</span><div class="xpbar"><i id="hudXp"></i></div><span id="hudXpN">0 XP</span></div>
+    <div class="stat" title="Fichas disponíveis">◉ <span id="hudCoins">0</span> FICHAS</div>
+    <button class="iconbtn" id="btnMute" aria-label="Som">♪ SOM</button>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-t="plano" class="on">1·PLANO</button>
+    <button data-t="registro">2·REGISTRO</button>
+    <button data-t="grafico">3·GRÁFICO</button>
+    <button data-t="loja">4·FICHAS</button>
+    <button data-t="conquistas">5·CONQUISTAS</button>
+    <button data-t="mural">6·MURAL</button>
+    <button data-t="relatorio">7·RELATÓRIO</button>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== PLANO ===== -->
+  <section class="screen on" id="s-plano">
+    <div class="npc"><img id="npcImgPlano" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcPlano"></div></div></div>
+    <div class="stagemap" id="stagemap"></div>
+    <div id="phaseHost"></div>
+  </section>
+
+  <!-- ===== REGISTRO ===== -->
+  <section class="screen" id="s-registro">
+    <div class="npc"><img id="npcImgReg" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcReg"></div></div></div>
+    <div class="panel blue">
+      <div class="ptitle"><span class="tag">NOVO</span> REGISTRAR UMA OPORTUNIDADE</div>
+      <div id="regPinpoint" class="notice"></div>
+      <div class="grid2">
+        <div>
+          <div class="field"><label for="rData">Data</label><input type="date" id="rData"></div>
+          <div class="field"><label>Etapa</label>
+            <div class="seg" id="rEtapa">
+              <button data-v="inicial" class="on">INICIAL</button><button data-v="intervencao">INTERVENÇÃO</button><button data-v="acompanhamento">ACOMPANH.</button>
+            </div>
+          </div>
+          <div class="field"><label for="rValor">Medida do comportamento <span id="rUnidade" class="hint"></span></label><input type="number" step="any" id="rValor" placeholder="ex.: 1 (ocorreu) ou 0 (não ocorreu), 12 (minutos)…"></div>
+          <div class="field"><label>Atingiu o critério nesta oportunidade?</label>
+            <div class="seg" id="rCrit"><button data-v="1">SIM</button><button data-v="0">NÃO</button></div>
+            <span class="hint" id="rMetaHint"></span>
+          </div>
+          <div class="field" id="rExecWrap"><label>A intervenção foi executada?</label>
+            <div class="seg" id="rExec"><button data-v="na" class="on">NÃO SE APLICA</button><button data-v="sim">SIM</button><button data-v="parcial">PARCIAL</button><button data-v="nao">NÃO</button></div>
+          </div>
+        </div>
+        <div>
+          <div class="field"><label for="rAntes">O que ocorreu antes (antecedentes)</label><textarea id="rAntes" placeholder="Situação, horário, o que estava fazendo, quem estava junto…"></textarea></div>
+          <div class="field"><label for="rDepois">O que ocorreu depois (consequências)</label><textarea id="rDepois" placeholder="O que o comportamento produziu (ou o que a ausência dele produziu)…"></textarea></div>
+          <div class="field"><label><input type="checkbox" id="rEvid"> Tenho evidência (foto, print, anotação, app)</label>
+            <input id="rEvidTxt" placeholder="Que evidência? (opcional)">
+          </div>
+          <div class="field"><label for="rFoto">Foto de prova (opcional, fica só neste navegador)</label><input type="file" id="rFoto" accept="image/*"></div>
+        </div>
+      </div>
+      <div class="field"><label for="rNota">Observação livre</label><input id="rNota" maxlength="200" placeholder="Algo que vale lembrar sobre esta oportunidade"></div>
+      <div class="row"><button class="btn red" id="btnReg">REGISTRAR ▶</button><span class="hint">Registrar quando falha também rende XP: falha registrada é dado.</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="ptitle">TABELA DE REGISTRO</div>
+      <div class="scroll"><table class="tbl" id="regTable"></table></div>
+    </div>
+  </section>
+
+  <!-- ===== GRÁFICO ===== -->
+  <section class="screen" id="s-grafico">
+    <div class="npc"><img id="npcImgGraf" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcGraf"></div></div></div>
+    <div class="panel yellow">
+      <div class="ptitle">SEU GRÁFICO · OBSERVAR → INTERVIR → OBSERVAR</div>
+      <canvas class="chart" id="chart" width="1000" height="440" aria-label="Gráfico da medida do comportamento por oportunidade, separado por etapa"></canvas>
+      <p class="hint" style="font-size:13px;color:var(--muted);margin:8px 0 0">● ponto cheio = critério atingido · ○ ponto vazado = critério não atingido · linhas tracejadas verticais = mudança de etapa · linha horizontal = critério numérico (se definido na Fase 2).</p>
+      <div class="stats" id="stats"></div>
+      <div class="row" style="margin-top:14px"><button class="btn small white" id="btnChartPng">BAIXAR GRÁFICO (PNG)</button></div>
+    </div>
+    <div class="panel">
+      <div class="ptitle">LEITURA DO GRÁFICO</div>
+      <div id="graphRead"></div>
+    </div>
+  </section>
+
+  <!-- ===== LOJA ===== -->
+  <section class="screen" id="s-loja">
+    <div class="npc"><img id="npcImgLoja" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcLoja"></div></div></div>
+    <div class="panel yellow">
+      <div class="ptitle">ECONOMIA DE FICHAS</div>
+      <div class="row" style="justify-content:space-between">
+        <div><div class="coins">◉ <span id="coinsBig">0</span></div><div class="hint" id="coinsDetail" style="color:var(--muted);font-size:14px"></div></div>
+        <div class="notice" style="max-width:520px;margin:0">Você ganha fichas por <b>registrar</b> (+1), por <b>atingir o critério</b> (+3) e por <b>executar a intervenção</b> (+1). Troque-as por consequências que você mesmo(a) define. Se a troca vai funcionar como reforço, só o gráfico dirá.</div>
+      </div>
+      <h3>SUAS CONSEQUÊNCIAS</h3>
+      <div class="shop" id="shop"></div>
+      <h3>CRIAR NOVA CONSEQUÊNCIA</h3>
+      <div class="row">
+        <div class="field" style="flex:2;min-width:220px;margin:0"><label for="shopName">O que é</label><input id="shopName" maxlength="60" placeholder="ex.: um episódio de série, um café especial"></div>
+        <div class="field" style="flex:0 0 120px;margin:0"><label for="shopPrice">Preço</label><input id="shopPrice" type="number" min="1" max="99" value="5"></div>
+        <button class="btn small" id="btnShopAdd" style="align-self:flex-end">ADICIONAR</button>
+      </div>
+      <h3>HISTÓRICO DE TROCAS</h3>
+      <div id="shopHist" class="hint"></div>
+    </div>
+  </section>
+
+  <!-- ===== CONQUISTAS ===== -->
+  <section class="screen" id="s-conquistas">
+    <div class="npc"><img id="npcImgConq" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcConq"></div></div></div>
+    <div class="panel">
+      <div class="ptitle">NÍVEIS</div>
+      <div class="levels" id="levels"></div>
+    </div>
+    <div class="panel blue">
+      <div class="ptitle">CONQUISTAS</div>
+      <div class="badges" id="badges"></div>
+    </div>
+  </section>
+
+  <!-- ===== MURAL ===== -->
+  <section class="screen" id="s-mural">
+    <div class="npc"><img id="npcImgMural" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcMural"></div></div></div>
+
+    <div class="panel">
+      <div class="ptitle"><span class="tag">VOCÊ ESCOLHE</span> O QUE COMPARTILHAR</div>
+      <p class="lead">Nada sai deste navegador sem você copiar e enviar. Tudo começa desligado. Ligue só o que quiser mostrar; o cartucho abaixo mostra exatamente o que será visto.</p>
+      <div class="grid2">
+        <div class="privacy">
+          <label class="toggle"><input type="checkbox" id="shName"><div><b>Mostrar meu nome</b><span>Desligado: o cartucho aparece como “Anônimo(a)”.</span></div></label>
+          <label class="toggle"><input type="checkbox" id="shPlan"><div><b>Compartilhar meu plano</b><span>Intenção, pinpoint, conta/não conta, medida, meta, intervenção e consequência programada.</span></div></label>
+          <label class="toggle"><input type="checkbox" id="shRes"><div><b>Compartilhar meus resultados</b><span>Etapa, medida, critério e execução de cada registro. Fotos, antecedentes, consequências e notas nunca são compartilhados.</span></div></label>
+        </div>
+        <div>
+          <div class="cards" id="myPreview" style="grid-template-columns:1fr"></div>
+        </div>
+      </div>
+      <div id="shareOut" style="margin-top:16px"></div>
+    </div>
+
+    <div class="panel blue">
+      <div class="ptitle">MURAL DA TURMA</div>
+      <p class="lead">Recebeu o código ou o link de um(a) colega? Cole aqui. O mural fica guardado neste navegador.</p>
+      <div class="row" style="align-items:flex-end">
+        <div class="field" style="flex:1;min-width:240px;margin:0"><label for="pasteCode">Código ou link do cartucho</label><input id="pasteCode" placeholder="Cole aqui"></div>
+        <button class="btn small blue" id="btnAddCard">ADICIONAR AO MURAL</button>
+      </div>
+      <h3>CARTUCHOS</h3>
+      <div class="cards" id="mural"></div>
+    </div>
+  </section>
+
+  <!-- ===== RELATÓRIO ===== -->
+  <section class="screen" id="s-relatorio">
+    <div class="npc"><img id="npcImgRel" alt="Boatacon"><div class="bubble"><div class="who">BOATACON</div><div class="say" id="npcRel"></div></div></div>
+    <div class="panel">
+      <div class="ptitle">RASCUNHO PARA A ENTREGA (ATÉ 2 PÁGINAS)</div>
+      <p class="lead">O jogo junta suas respostas nos cinco tópicos do roteiro da VL4. É um rascunho: revise, enxugue e escreva com suas palavras antes de enviar para hernando@uel.br.</p>
+      <div class="field"><label for="usoIA">Uso de IA (obrigatório indicar, se houve)</label><textarea id="usoIA" placeholder="Ex.: não utilizei IA. / Usei IA para revisar a gramática do tópico 4."></textarea></div>
+      <textarea class="code" id="report" style="min-height:420px;font-family:var(--body);font-size:14px" readonly></textarea>
+      <div class="row" style="margin-top:12px">
+        <button class="btn small" id="btnCopyRep">COPIAR TEXTO</button>
+        <button class="btn small white" id="btnDlRep">BAIXAR .TXT</button>
+      </div>
+    </div>
+    <div class="panel blue">
+      <div class="ptitle">SALVAR / TRANSFERIR SEU JOGO</div>
+      <p class="lead">Seu progresso fica salvo neste navegador. Para trocar de computador ou celular, baixe o arquivo de salvamento e carregue-o no outro aparelho.</p>
+      <div class="row">
+        <button class="btn small white" id="btnSave">BAIXAR SALVAMENTO</button>
+        <label class="btn small white" for="loadFile" style="display:inline-block">CARREGAR SALVAMENTO</label>
+        <input type="file" id="loadFile" accept=".json,application/json" class="sr">
+        <button class="btn small red" id="btnReset">APAGAR TUDO</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  CRIACOM: CRIAtividade &amp; COMportamento · UEL<br>
+  Microjogo Vol. 13 · 6PAC099 Contribuições da Análise do Comportamento Aplicada às Organizações<br>
+  <a href="https://criacom.github.io/microjogos/">← outros microjogos</a>
+</footer>
+
+<div id="toasts" aria-live="polite"></div>
+<div id="modal" role="dialog" aria-modal="true"><div class="mbox"><div class="mhead" id="mHead"></div><div class="mbody" id="mBody"></div><div class="mfoot" id="mFoot"></div></div></div>
+
+<script>
+/* =====================================================================
+   FAÇA SEU PINPOINT! · CRIACOM Microjogos Vol. 13
+   Arquivo único, sem servidor: tudo fica no localStorage do navegador.
+   ===================================================================== */
+
+const IMG = {
+  cover:'img/cover.png', ok:'img/ok.png', ok2:'img/ok2.png', uhmm:'img/uhmm.png', crossed:'img/crossed.png',
+  point:'img/point.png', think:'img/think.png', party:'img/party.png', idea:'img/idea.png',
+  shrug:'img/shrug.png', coffee:'img/coffee.png', phone:'img/phone.png'
+};
+
+/* ---------------------------------------------------------------------
+   EXEMPLO DO PROFESSOR — edite livremente os textos deste bloco.
+   Os registros abaixo seguem o que de fato ocorreu: duas oportunidades
+   planejadas sem ida e a terceira com ida (com foto de prova).
+   Para acrescentar novos registros, inclua novas linhas em "log".
+   --------------------------------------------------------------------- */
+const PROF = {
+  nome: 'Prof. Hernando',
+  turma: '6PAC099',
+  plan: {
+    intencao: 'Começar a fazer exercícios físicos.',
+    pinpoint: 'Ir ao local de treino e realizar a sessão de exercícios planejada, no dia e horário reservados.',
+    conta: 'Chegar e fazer a sessão, mesmo que curta ou incompleta.',
+    naoConta: 'Planejar, separar a roupa ou pesquisar treinos sem se exercitar.',
+    medida: 'Proporção de oportunidades: sessões realizadas / sessões planejadas (1 = fui, 0 = não fui).',
+    meta: 'Comparecer na maioria das oportunidades planejadas a cada semana.',
+    intervencao: 'Exposição pública: meu pinpoint e meus registros ficam visíveis para as turmas no mural deste microjogo.',
+    consequencia: 'Foto de prova a cada sessão realizada, publicada no registro.'
+  },
+  log: [
+    { etapa:'inicial', valor:0, criterio:0, exec:'na', evid:0, nota:'Planejado; não fui.' },
+    { etapa:'inicial', valor:0, criterio:0, exec:'na', evid:0, nota:'Planejado de novo; não fui.' },
+    { etapa:'inicial', valor:1, criterio:1, exec:'na', evid:1, nota:'Fui! Foto de prova.' }
+  ],
+  // Respostas exemplares exibidas em cada fase do planejador
+  fases: {
+    1: [['Intenção','Começar a fazer exercícios físicos.'],
+        ['Pinpoint','Ir ao local de treino e realizar a sessão planejada, no dia e horário reservados.'],
+        ['Conta','Chegar e fazer a sessão, mesmo curta ou incompleta.'],
+        ['Não conta','Planejar, separar a roupa ou pesquisar treinos sem se exercitar.']],
+    2: [['Medida','Proporção de oportunidades: sessões realizadas / sessões planejadas (1 = fui, 0 = não fui).'],
+        ['Meta','Comparecer na maioria das oportunidades planejadas a cada semana.'],
+        ['Por que essa medida?','“Começar” é questão de ir ou não ir; desempenho no treino fica para depois.']],
+    3: [['O que aconteceu antes','Planejei tudo (dia, horário, local). Nas duas primeiras oportunidades, não fui. Na terceira, fui, e tirei foto.'],
+        ['Observação','Em 2 de 3 oportunidades planejadas, não houve ida; na 3ª, houve.'],
+        ['Hipótese (a investigar)','Faltar não produzia nenhuma consequência imediata visível para outras pessoas.']],
+    4: [['O que muda','Acrescento exposição pública: pinpoint e registros no mural do microjogo, vistos pelas turmas.'],
+        ['Por que','Se a falha passa a ser observável por outras pessoas, faltar e ir ganham consequências sociais que antes não existiam.'],
+        ['Como verifico a execução','O cartucho está publicado e é atualizado a cada oportunidade, com foto quando houver ida.']],
+    5: [['Comparação','Proporção de idas antes da exposição (1 de 3) × depois da exposição.'],
+        ['Outras condições','Clima, agenda de congressos, viagens.'],
+        ['Se não mudar','Reviso o horário escolhido, o tamanho da sessão e se a exposição está de fato visível.']]
+  }
+};
+
+/* ---------------- estado ---------------- */
+const KEY = 'criacom_pinpoint_v13';
+const DEF = () => ({
+  name:'', turma:'', started:false, plan:{}, log:[], shop:[
+    {id:uid(), nome:'(edite) algo que você gosta de fazer', preco:5}
+  ], compras:[], share:{name:false, plan:false, res:false}, mural:[], seen:[], muted:false, shared:false, phase:1
+});
+let S = load();
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function load(){
+  try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r && typeof r==='object') return Object.assign(DEF(), r); }catch(e){}
+  return DEF();
+}
+let saveT=null;
+function save(){ clearTimeout(saveT); saveT=setTimeout(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('Não consegui salvar: o armazenamento do navegador está cheio. Remova fotos antigas.'); } },150); }
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P = k => (S.plan[k]||'').trim();
+
+/* ---------------- som (Web Audio) ---------------- */
+let AC=null;
+function tone(seq){
+  if(S.muted) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    let t = AC.currentTime;
+    seq.forEach(([f,d,type='square',v=.06])=>{
+      const o=AC.createOscillator(), g=AC.createGain();
+      o.type=type; o.frequency.value=f; g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.0001,t+d);
+      o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+d); t+=d*.9;
+    });
+  }catch(e){}
+}
+const SFX = {
+  blip:()=>tone([[660,.05]]),
+  coin:()=>tone([[988,.07],[1319,.18]]),
+  fail:()=>tone([[330,.1,'triangle'],[262,.16,'triangle']]),
+  badge:()=>tone([[523,.09],[659,.09],[784,.09],[1047,.25]]),
+  start:()=>tone([[392,.08],[523,.08],[659,.08],[784,.08],[1047,.3]]),
+  buy:()=>tone([[784,.06],[1175,.06],[1568,.15]])
+};
+
+/* ---------------- fases do planejador ---------------- */
+const MEDIDAS = {
+  frequencia:'Frequência (quantas vezes, em um período definido)',
+  duracao:'Duração (quanto tempo)',
+  latencia:'Latência (tempo entre uma situação definida e o início da ação)',
+  alocacao:'Alocação temporal (minutos/horas por dia na atividade)',
+  proporcao:'Proporção de oportunidades (em quantas ocorreu, do total disponível)',
+  desempenho:'Desempenho (execuções corretas em N tentativas)'
+};
+const PHASES = [
+ { n:1, short:'INTENÇÃO → COMPORTAMENTO', title:'Da intenção ao comportamento', npc:'think',
+   say:'Escolha uma mudança pequena, relevante e viável, que você se sinta confortável em compartilhar. “Aprender violão” é um objetivo; “tocar a sequência de acordes após o jantar” é um comportamento.',
+   fields:[
+    {k:'intencao', label:'Sua intenção', ph:'Quero praticar violão com mais regularidade', req:1},
+    {k:'porque', label:'Por que ela importa para você?', type:'area', req:1},
+    {k:'sentido', label:'Você quer…', type:'select', opts:{aumentar:'Aumentar / começar um comportamento', reduzir:'Reduzir um comportamento'}, req:1},
+    {k:'pinpoint', label:'Pinpoint: qual comportamento específico será observado?', type:'area', ph:'Realizar tentativas da sequência de acordes escolhida, durante o período reservado após o jantar', req:1, hint:'Use um verbo de ação que outra pessoa poderia observar.'},
+    {k:'quando', label:'Quando (em que momento)?', req:1},
+    {k:'onde', label:'Onde (em qual contexto)?', req:1},
+    {k:'conta', label:'Exemplo que CONTA como ocorrência', type:'area', req:1},
+    {k:'naoConta', label:'Exemplo que NÃO CONTA', type:'area', req:1},
+    {k:'alternativo', label:'Se for reduzir: o que você fará naquela situação em seu lugar?', type:'area', req:'reduzir'}
+   ]},
+ { n:2, short:'MEDIDA E META', title:'Escolha uma medida e uma meta', npc:'idea',
+   say:'Medida e meta são coisas diferentes. Minutos de prática são uma medida; “dez minutos em quatro de cinco oportunidades” é uma meta. E fazer mais não é o mesmo que fazer com mais precisão.',
+   fields:[
+    {k:'medida', label:'Tipo de medida', type:'select', opts:MEDIDAS, req:1},
+    {k:'unidade', label:'Como você vai anotar cada oportunidade? (unidade)', ph:'ex.: 1 = fiz / 0 = não fiz; minutos; nº de acertos em 10 tentativas', req:1},
+    {k:'meta', label:'Meta', type:'area', ph:'ex.: praticar 10 min em 4 de 5 oportunidades por semana', req:1},
+    {k:'metaNum', label:'Critério numérico por oportunidade (opcional, aparece no gráfico)', type:'number', ph:'ex.: 10', hint:'Valor que, em uma oportunidade, você considera “critério atingido”.'}
+   ]},
+ { n:3, short:'OBSERVAÇÃO INICIAL', title:'Observação inicial: o que acontece antes da mudança?', npc:'crossed',
+   say:'Sem registro, a memória esquece (e inventa). Separe o que você observou do que você supõe: “abri a rede social três vezes antes de ler” é registro; “abro porque a tarefa é difícil” é hipótese.',
+   fields:[
+    {k:'numOport', label:'Por quantos dias ou oportunidades você vai observar?', ph:'ex.: 5 oportunidades em uma semana', req:1},
+    {k:'situacoes', label:'Em quais situações vai observar?', type:'area', req:1},
+    {k:'ondeAnoto', label:'Onde vai anotar os dados?', ph:'Na aba REGISTRO deste jogo, no caderno, no celular…', req:1},
+    {k:'antecedentes', label:'Quais acontecimentos ANTERIORES ao comportamento vai registrar?', type:'area', req:1},
+    {k:'consequentes', label:'Quais acontecimentos POSTERIORES ao comportamento vai registrar?', type:'area', req:1},
+    {k:'contexto', label:'Contexto: o material está disponível? Há tarefas concorrentes? O comportamento produz algum resultado imediato? Os dias diferem?', type:'area'},
+    {k:'observacoes', label:'Observações (só o que foi registrado)', type:'area', hint:'Se ainda não observou, deixe em branco e preencha depois.'},
+    {k:'hipoteses', label:'Hipóteses (o que ainda precisa ser investigado)', type:'area', req:1, hint:'Se ainda não observou, escreva o que pretende verificar.'}
+   ]},
+ { n:4, short:'INTERVENÇÃO', title:'Intervenção: o que você vai mudar, e por quê?', npc:'point',
+   say:'“Vou me esforçar”, “vou ter foco” e “vou me cobrar mais” não especificam uma intervenção. Mude as condições em que o comportamento acontece: acrescente, retire ou reorganize algo.',
+   fields:[
+    {k:'intervTipo', label:'A mudança principal consiste em…', type:'select', opts:{acrescentar:'Acrescentar algo ao ambiente', retirar:'Retirar algo do ambiente', reorganizar:'Reorganizar o ambiente/rotina'}, req:1},
+    {k:'intervencao', label:'O que exatamente muda?', type:'area', req:1, ph:'ex.: deixar o violão afinado e a cifra aberta no suporte antes do jantar'},
+    {k:'intervQuando', label:'Quando a mudança será aplicada?', req:1},
+    {k:'intervPorque', label:'Por que essa mudança pode favorecer o comportamento, considerando sua observação inicial?', type:'area', req:1},
+    {k:'intervVerif', label:'Como você vai verificar se a intervenção foi de fato executada?', type:'area', req:1},
+    {k:'consequencia', label:'Consequência programada (opcional)', type:'area', hint:'Não chame de “reforço” ainda: só os dados dirão se ela funciona como reforço.'},
+    {k:'consequenciaQuando', label:'Em que condição essa consequência ocorre?', ph:'ex.: logo após cada oportunidade em que eu atingir o critério'}
+   ]},
+ { n:5, short:'NOVA OBSERVAÇÃO', title:'Nova observação: como você vai avaliar a mudança?', npc:'ok',
+   say:'Mesma definição de comportamento, mesma medida, oportunidades comparáveis. Se nada mudar, ainda é uma boa análise: revise a proposta, a execução, a medida e as oportunidades.',
+   fields:[
+    {k:'followPeriodo', label:'Período de acompanhamento', ph:'ex.: 5 oportunidades após a intervenção', req:1},
+    {k:'mudancaRelevante', label:'Quais registros vai comparar, e o que vai considerar uma mudança relevante?', type:'area', req:1},
+    {k:'outrasCondicoes', label:'Que outras condições podem influenciar os resultados?', type:'area', req:1},
+    {k:'revisaria', label:'O que você revisaria se a mudança esperada não ocorresse?', type:'area', req:1}
+   ]}
+];
+const isReq = f => f.req===1 || (f.req==='reduzir' && P('sentido')==='reduzir');
+function phasePct(ph){
+  const req = ph.fields.filter(isReq);
+  const done = req.filter(f=>P(f.k)).length;
+  return req.length ? done/req.length : 1;
+}
+
+/* ---------------- detector de pinpoint vago ---------------- */
+const VAGUE = [
+  [/\b(me )?esfor[cç]/i,'“esforçar” descreve uma intenção, não uma ação observável.'],
+  [/\bfoc(o|ar|ada|ado)\b/i,'“foco” não é observável: o que alguém veria você fazendo?'],
+  [/\bme cobrar\b/i,'“me cobrar” não muda as condições do ambiente.'],
+  [/\bdisciplin/i,'“disciplina” é um rótulo para um padrão de comportamento; descreva o comportamento.'],
+  [/\bmotiva/i,'“motivação” costuma ser o nome do problema, não do comportamento.'],
+  [/\bmais saud[aá]vel|\bmelhor(ar)?\b/i,'“melhor/mais saudável” é avaliação; diga o que muda na prática.'],
+  [/\bser mais\b|\bficar mais\b/i,'“ser/ficar mais X” descreve um traço; prefira um verbo de ação.'],
+  [/\btentar\b/i,'“tentar” só serve se você disser o que conta como tentativa.'],
+  [/\b(organizad|produtiv|consistente|regularidade)/i,'adjetivos como “organizado/produtivo” precisam virar ações específicas.'],
+  [/\baprender\b/i,'“aprender” é um objetivo amplo; que prática observável contribui para ele?']
+];
+function vagueCheck(text){ return VAGUE.filter(([re])=>re.test(text)).map(([,m])=>m); }
+function clarity(){
+  let sc=0; const tips=[];
+  const pp=P('pinpoint');
+  if(pp.length>=25) sc+=25; else tips.push('Escreva o pinpoint com um verbo de ação e o objeto da ação.');
+  const v = vagueCheck(pp); if(pp && !v.length) sc+=15; tips.push(...v);
+  if(P('quando')) sc+=15; else tips.push('Diga QUANDO o comportamento deve ocorrer.');
+  if(P('onde')) sc+=15; else tips.push('Diga ONDE (em que contexto).');
+  if(P('conta')) sc+=15; else tips.push('Dê um exemplo que conta como ocorrência.');
+  if(P('naoConta')) sc+=15; else tips.push('Dê um exemplo que NÃO conta.');
+  return {sc:Math.min(100,sc), tips};
+}
+
+/* ---------------- XP, níveis, fichas, conquistas ---------------- */
+const LEVELS = [
+  [0,'Observador(a) Iniciante'],[120,'Registrador(a)'],[280,'Analista de Contingências'],
+  [480,'Arquiteto(a) de Ambientes'],[720,'Experimentador(a) de Bolso'],[1000,'Behaviorista Radical (de si)']
+];
+function filledFields(){ return PHASES.flatMap(p=>p.fields).filter(f=>P(f.k)).length; }
+function coinsEarned(){ return S.log.reduce((a,e)=>a+1+(e.criterio?3:0)+(e.exec==='sim'?1:0),0); }
+function coinsSpent(){ return S.compras.reduce((a,c)=>a+c.preco,0); }
+function coins(){ return coinsEarned()-coinsSpent(); }
+const BADGES = [
+  {id:'pin', ico:'🎯', n:'PINPOINT AFIADO', d:'Nitidez do pinpoint em 100%.', test:()=>clarity().sc>=100},
+  {id:'med', ico:'📏', n:'MENSURADOR(A)', d:'Definiu medida e meta.', test:()=>P('medida')&&P('meta')},
+  {id:'plan', ico:'🗺️', n:'PLANO COMPLETO', d:'Todas as 5 fases preenchidas.', test:()=>PHASES.every(p=>phasePct(p)>=1)},
+  {id:'r1', ico:'✏️', n:'PRIMEIRO REGISTRO', d:'Registrou a primeira oportunidade.', test:()=>S.log.length>=1},
+  {id:'fail', ico:'🧱', n:'FALHOU E REGISTROU', d:'Registrou uma oportunidade sem critério atingido. Falha registrada é dado.', test:()=>S.log.some(e=>!e.criterio)},
+  {id:'back', ico:'🔁', n:'VOLTA POR CIMA', d:'Atingiu o critério depois de pelo menos uma falha.', test:()=>{let f=false; for(const e of S.log){ if(!e.criterio) f=true; else if(f) return true;} return false;}},
+  {id:'base', ico:'🔍', n:'LINHA DE BASE', d:'Três ou mais registros na observação inicial.', test:()=>S.log.filter(e=>e.etapa==='inicial').length>=3},
+  {id:'int', ico:'🔧', n:'INTERVENÇÃO NO AR', d:'Primeiro registro na etapa de intervenção.', test:()=>S.log.some(e=>e.etapa==='intervencao')},
+  {id:'fid', ico:'✅', n:'FIDELIDADE', d:'Intervenção executada integralmente em 3 oportunidades.', test:()=>S.log.filter(e=>e.exec==='sim').length>=3},
+  {id:'seq', ico:'🔥', n:'TRÊS SEGUIDAS', d:'Critério atingido em 3 oportunidades consecutivas.', test:()=>{let c=0; for(const e of S.log){ c=e.criterio?c+1:0; if(c>=3) return true;} return false;}},
+  {id:'evid', ico:'📸', n:'PROVA DOCUMENTAL', d:'Registrou uma oportunidade com evidência.', test:()=>S.log.some(e=>e.evid)},
+  {id:'fol', ico:'🔭', n:'NOVA OBSERVAÇÃO', d:'Primeiro registro no acompanhamento.', test:()=>S.log.some(e=>e.etapa==='acompanhamento')},
+  {id:'aba', ico:'📈', n:'O-I-O COMPLETO', d:'Registros nas três etapas: inicial, intervenção e acompanhamento.', test:()=>['inicial','intervencao','acompanhamento'].every(t=>S.log.some(e=>e.etapa===t))},
+  {id:'buy', ico:'◉', n:'ECONOMIA DE FICHAS', d:'Trocou fichas por uma consequência.', test:()=>S.compras.length>=1},
+  {id:'expo', ico:'📣', n:'EXPOSIÇÃO VOLUNTÁRIA', d:'Gerou um cartucho para compartilhar.', test:()=>S.shared},
+  {id:'mural', ico:'🤝', n:'COLEGA DE LABORATÓRIO', d:'Adicionou o cartucho de um(a) colega ao mural.', test:()=>S.mural.length>=1}
+];
+function xp(){
+  let x = filledFields()*8;
+  x += S.log.length*15 + S.log.filter(e=>e.evid).length*5;
+  x += BADGES.filter(b=>b.test()).length*25;
+  return x;
+}
+function level(){ const x=xp(); let i=0; LEVELS.forEach((l,j)=>{ if(x>=l[0]) i=j; }); return i; }
+function checkBadges(){
+  BADGES.forEach(b=>{
+    if(b.test() && !S.seen.includes(b.id)){
+      S.seen.push(b.id); save(); SFX.badge();
+      toast(`${b.ico} CONQUISTA: ${b.n}`, true);
+    }
+  });
+}
+
+/* ---------------- UI utilitários ---------------- */
+function toast(msg, gold){
+  const t=document.createElement('div'); t.className='toast'+(gold?' gold':''); t.textContent=msg;
+  $('#toasts').appendChild(t); setTimeout(()=>t.remove(), 3800);
+}
+function floatTxt(msg, el){
+  const r=(el||document.body).getBoundingClientRect();
+  const f=document.createElement('div'); f.className='float'; f.textContent=msg;
+  f.style.left=(r.left+r.width/2-40)+'px'; f.style.top=(r.top-10)+'px';
+  document.body.appendChild(f); setTimeout(()=>f.remove(),1300);
+}
+function modal(head, bodyHtml, buttons){
+  $('#mHead').textContent=head; $('#mBody').innerHTML=bodyHtml; const ft=$('#mFoot'); ft.innerHTML='';
+  buttons.forEach(([label,cls,fn])=>{ const b=document.createElement('button'); b.className='btn small '+(cls||''); b.textContent=label; b.onclick=()=>{ closeModal(); fn&&fn(); }; ft.appendChild(b); });
+  $('#modal').classList.add('on');
+}
+function closeModal(){ $('#modal').classList.remove('on'); }
+function npc(where, pose, html){ $('#npcImg'+where).src=IMG[pose]; $('#npc'+where).innerHTML=html; }
+
+/* ---------------- HUD ---------------- */
+function renderHud(){
+  const x=xp(), li=level(), cur=LEVELS[li][0], nxt=(LEVELS[li+1]||[cur+300])[0];
+  $('#hudLvl').textContent='NV '+(li+1);
+  $('#hudXp').style.width=Math.min(100,(x-cur)/(nxt-cur)*100)+'%';
+  $('#hudXpN').textContent=x+' XP';
+  $('#hudCoins').textContent=coins();
+  $('#btnMute').textContent=S.muted?'✕ MUDO':'♪ SOM';
+  $('#hud').title=LEVELS[li][1];
+}
+
+/* ---------------- PLANO ---------------- */
+function renderStages(){
+  $('#stagemap').innerHTML = PHASES.map(p=>{
+    const pct=phasePct(p);
+    return `<button class="stage ${S.phase===p.n?'on':''} ${pct>=1?'done':''}" data-ph="${p.n}"><b>FASE ${p.n}</b>${p.short}<span class="meter"><i style="width:${Math.round(pct*100)}%"></i></span></button>`;
+  }).join('');
+  $$('#stagemap .stage').forEach(b=>b.onclick=()=>{ S.phase=+b.dataset.ph; save(); SFX.blip(); renderPlan(); });
+}
+function fieldHtml(f){
+  const v=esc(S.plan[f.k]||''); const cls='field'+(isReq(f)?' req':'');
+  const hint=f.hint?`<span class="hint">${esc(f.hint)}</span>`:'';
+  const ph=f.ph?` placeholder="${esc(f.ph)}"`:'';
+  if(f.k==='alternativo' && P('sentido')!=='reduzir') return '';
+  let inp;
+  if(f.type==='area') inp=`<textarea id="f_${f.k}" data-k="${f.k}"${ph}>${v}</textarea>`;
+  else if(f.type==='select') inp=`<select id="f_${f.k}" data-k="${f.k}"><option value="">— escolha —</option>${Object.entries(f.opts).map(([k,l])=>`<option value="${k}" ${S.plan[f.k]===k?'selected':''}>${esc(l)}</option>`).join('')}</select>`;
+  else inp=`<input id="f_${f.k}" data-k="${f.k}" type="${f.type==='number'?'number':'text'}" step="any" value="${v}"${ph}>`;
+  return `<div class="${cls}"><label for="f_${f.k}">${esc(f.label)}</label>${inp}${hint}</div>`;
+}
+function exHtml(n){
+  const rows=PROF.fases[n]; if(!rows) return '';
+  return `<details class="ex"><summary>▶ VER EXEMPLO DO PROFESSOR: “COMEÇAR A FAZER EXERCÍCIOS”</summary><dl>${rows.map(([a,b])=>`<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl></details>`;
+}
+function renderDetector(){
+  const host=$('#detector'); if(!host) return;
+  const {sc,tips}=clarity();
+  host.innerHTML=`<b>NITIDEZ DO PINPOINT: ${sc}%</b><div class="bar"><i style="width:${sc}%"></i></div>`+
+    (tips.length?`<ul>${tips.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<div>Pinpoint nítido: outra pessoa conseguiria dizer se ele ocorreu ou não.</div>');
+}
+function renderIntervCheck(){
+  const host=$('#intervCheck'); if(!host) return;
+  const v=vagueCheck(P('intervencao'));
+  host.style.display = P('intervencao') ? '' : 'none';
+  host.innerHTML = v.length
+    ? `<b>⚠ ISSO AINDA NÃO É UMA INTERVENÇÃO</b><ul>${v.map(t=>`<li>${esc(t)}</li>`).join('')}<li>Descreva o que muda no ambiente: o que é acrescentado, retirado ou reorganizado.</li></ul>`
+    : `<b>✔ Intervenção descrita em termos de mudança de condições.</b>`;
+}
+function renderPlan(){
+  renderStages();
+  const p=PHASES[S.phase-1];
+  npc('Plano', p.npc, esc(p.say));
+  let html=`<div class="panel"><div class="ptitle"><span class="tag">FASE ${p.n}/5</span> ${esc(p.title.toUpperCase())}</div>`;
+  html+=exHtml(p.n);
+  if(p.n===1){
+    const a=p.fields.slice(0,4), b=p.fields.slice(4);
+    html+=a.map(fieldHtml).join('')+`<div class="grid2">${b.slice(0,2).map(fieldHtml).join('')}</div><div class="grid2">${b.slice(2,4).map(fieldHtml).join('')}</div>${b.slice(4).map(fieldHtml).join('')}<div class="detector" id="detector"></div>`;
+  } else if(p.n===4){
+    html+=p.fields.slice(0,2).map(fieldHtml).join('')+`<div class="detector" id="intervCheck"></div>`+p.fields.slice(2).map(fieldHtml).join('');
+    html+=`<div class="notice">Escolha uma mudança principal para facilitar a análise. Se combinar estratégias, explique a função de cada uma e reconheça que será mais difícil saber qual contribuiu para o resultado.</div>`;
+  } else if(p.n===3){
+    html+=`<div class="grid2"><div>${p.fields.slice(0,3).map(fieldHtml).join('')}</div><div>${p.fields.slice(3,5).map(fieldHtml).join('')}</div></div>`+p.fields.slice(5).map(fieldHtml).join('');
+  } else html+=p.fields.map(fieldHtml).join('');
+  html+=`<div class="row" style="justify-content:space-between;margin-top:8px">
+    <button class="btn small white" id="phPrev" ${p.n===1?'disabled':''}>◀ FASE ANTERIOR</button>
+    ${p.n<5?`<button class="btn small" id="phNext">PRÓXIMA FASE ▶</button>`:`<button class="btn small red" id="phGo">IR PARA O REGISTRO ▶</button>`}</div></div>`;
+  $('#phaseHost').innerHTML=html;
+  $$('#phaseHost [data-k]').forEach(el=>{
+    const ev = el.tagName==='SELECT'?'change':'input';
+    el.addEventListener(ev,()=>{
+      S.plan[el.dataset.k]=el.value; save();
+      if(el.dataset.k==='sentido'){ renderPlan(); }
+      renderStages(); renderDetector(); renderIntervCheck(); renderHud(); checkBadges();
+    });
+  });
+  $('#phPrev') && ($('#phPrev').onclick=()=>{ S.phase--; save(); renderPlan(); scrollTo({top:0,behavior:'smooth'}); });
+  $('#phNext') && ($('#phNext').onclick=()=>{
+    if(phasePct(p)<1) toast('Ainda há campos obrigatórios (●) nesta fase. Você pode voltar depois.');
+    SFX.blip(); S.phase++; save(); renderPlan(); scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#phGo') && ($('#phGo').onclick=()=>go('registro'));
+  renderDetector(); renderIntervCheck();
+}
+
+/* ---------------- REGISTRO ---------------- */
+let rEtapa='inicial', rCrit=null, rExec='na', rFoto=null;
+function segBind(id, cb){
+  $$('#'+id+' button').forEach(b=>b.onclick=()=>{ $$('#'+id+' button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); SFX.blip(); cb(b.dataset.v); });
+}
+function segSet(id,v){ $$('#'+id+' button').forEach(x=>x.classList.toggle('on', x.dataset.v===String(v))); }
+function lastEtapa(){ return S.log.length ? S.log[S.log.length-1].etapa : 'inicial'; }
+function setEtapa(v){
+  rEtapa=v; segSet('rEtapa',v);
+  if(v==='inicial'){ rExec='na'; segSet('rExec','na'); }
+  else if(rExec==='na'){ rExec='sim'; segSet('rExec','sim'); }
+}
+const ETAPA_LBL = {inicial:'Inicial', intervencao:'Intervenção', acompanhamento:'Acompanhamento'};
+const EXEC_LBL = {na:'Não se aplica', sim:'Sim', parcial:'Parcialmente', nao:'Não'};
+function renderReg(){
+  const pp=P('pinpoint');
+  $('#regPinpoint').innerHTML = pp
+    ? `<b>Seu pinpoint:</b> ${esc(pp)}${P('consequencia')?`<br><b>Consequência programada:</b> ${esc(P('consequencia'))}${P('consequenciaQuando')?' · '+esc(P('consequenciaQuando')):''}`:''}`
+    : `Você ainda não escreveu seu pinpoint. <a href="#" id="toPlan">Vá à Fase 1 do plano</a>; registre mesmo assim, se já começou.`;
+  $('#toPlan') && ($('#toPlan').onclick=e=>{e.preventDefault(); S.phase=1; go('plano');});
+  $('#rUnidade').textContent = P('unidade') ? '('+P('unidade')+')' : '';
+  $('#rMetaHint').textContent = P('metaNum') ? `Critério numérico definido: ${P('metaNum')}` : (P('meta')?'Meta: '+P('meta'):'');
+  const n=S.log.length;
+  const pose = !n ? 'coffee' : (S.log[n-1].criterio ? 'ok' : 'coffee');
+  npc('Reg', pose, !n
+    ? 'Cada oportunidade vira uma linha. Registre <b>também quando não acontecer</b>: oportunidade sem ocorrência é dado, e é o dado que torna a comparação possível.'
+    : `Você tem <b>${n}</b> registro${n>1?'s':''}. ${S.log[n-1].criterio?'O último atingiu o critério.':'O último não atingiu o critério, e mesmo assim você registrou. É isso que mantém o experimento vivo.'} Na observação inicial, a execução da intervenção fica como “não se aplica”.`);
+  // tabela
+  const head=`<tr><th>#</th><th>DATA</th><th>ETAPA</th><th>MEDIDA</th><th>CRITÉRIO</th><th>CONDIÇÕES (ANTES/DEPOIS)</th><th>INTERVENÇÃO EXECUTADA?</th><th>EVID.</th><th></th></tr>`;
+  const rows=S.log.map((e,i)=>`<tr>
+    <td class="num">${i+1}</td><td>${esc(e.data||'—')}</td><td>${ETAPA_LBL[e.etapa]}</td><td class="num">${esc(e.valor)}</td>
+    <td><span class="pill ${e.criterio?'ok':'no'}">${e.criterio?'SIM':'NÃO'}</span></td>
+    <td>${e.antes?'<b>Antes:</b> '+esc(e.antes)+'<br>':''}${e.depois?'<b>Depois:</b> '+esc(e.depois)+'<br>':''}${e.nota?'<i>'+esc(e.nota)+'</i>':''}${e.cons?'<br><span class="pill part">CONSEQUÊNCIA APLICADA</span>':''}</td>
+    <td><span class="pill ${({na:'na',sim:'ok',parcial:'part',nao:'no'})[e.exec]}">${EXEC_LBL[e.exec].toUpperCase()}</span></td>
+    <td>${e.foto?`<img src="${e.foto}" alt="Foto de prova">`:(e.evid?'✔ '+esc(e.evidTxt||''):'')}</td>
+    <td><button class="btn small white" data-del="${e.id}" title="Apagar registro">✕</button></td></tr>`).join('');
+  $('#regTable').innerHTML = head + (rows || `<tr><td colspan="9" style="text-align:center;color:var(--muted)">Nenhum registro ainda.</td></tr>`);
+  $$('#regTable [data-del]').forEach(b=>b.onclick=()=>{
+    modal('APAGAR REGISTRO?', 'Este registro sairá da tabela e do gráfico. As fichas que ele rendeu também saem.', [
+      ['CANCELAR','white'],['APAGAR','red',()=>{ S.log=S.log.filter(e=>e.id!==b.dataset.del); save(); renderAll(); }]
+    ]);
+  });
+}
+function resizeImg(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader(); r.onerror=rej;
+    r.onload=()=>{ const im=new Image(); im.onload=()=>{
+      const s=Math.min(1,220/Math.max(im.width,im.height)); const c=document.createElement('canvas');
+      c.width=Math.round(im.width*s); c.height=Math.round(im.height*s); c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      res(c.toDataURL('image/jpeg',.6)); }; im.onerror=rej; im.src=r.result; };
+    r.readAsDataURL(file);
+  });
+}
+function initReg(){
+  $('#rData').value=new Date().toLocaleDateString('sv-SE');
+  segBind('rEtapa', setEtapa);
+  segBind('rCrit', v=>rCrit=+v);
+  segBind('rExec', v=>{ rExec=v; });
+  $('#rFoto').onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ rFoto=await resizeImg(f); $('#rEvid').checked=true; toast('Foto anexada.'); }catch(err){ toast('Não consegui ler esta imagem.'); } };
+  $('#btnReg').onclick=()=>{
+    const valor=$('#rValor').value;
+    if(valor===''){ toast('Informe a medida do comportamento (pode ser 0).'); $('#rValor').focus(); return; }
+    if(rCrit===null){ toast('Diga se o critério foi atingido nesta oportunidade.'); return; }
+    if(rEtapa!=='inicial' && rExec==='na'){ toast('Fora da observação inicial, diga se a intervenção foi executada.'); return; }
+    const e={ id:uid(), data:$('#rData').value, etapa:rEtapa, valor:+valor, criterio:rCrit, exec:rEtapa==='inicial'?'na':rExec,
+      antes:$('#rAntes').value.trim(), depois:$('#rDepois').value.trim(), evid:$('#rEvid').checked?1:0, evidTxt:$('#rEvidTxt').value.trim(),
+      foto:rFoto, nota:$('#rNota').value.trim(), cons:0 };
+    S.log.push(e); save();
+    const gain=1+(e.criterio?3:0)+(e.exec==='sim'?1:0), gx=15+(e.evid?5:0);
+    floatTxt(`+${gx} XP  +${gain} ◉`, $('#btnReg'));
+    if(e.criterio) SFX.coin(); else SFX.fail();
+    // limpar
+    ['#rValor','#rAntes','#rDepois','#rEvidTxt','#rNota'].forEach(s=>$(s).value=''); $('#rEvid').checked=false; $('#rFoto').value=''; rFoto=null; rCrit=null; segSet('rCrit','x');
+    renderAll(); checkBadges();
+    // consequenciar
+    if(e.criterio && P('consequencia') && e.etapa!=='inicial'){
+      modal('HORA DA SUA CONSEQUÊNCIA PROGRAMADA',
+        `<img src="${IMG.party}" alt="Boatacon comemorando"><p>Critério atingido. Você programou esta consequência:</p><p><b>${esc(P('consequencia'))}</b></p><p class="hint" style="color:var(--muted);font-size:14px">Aplicá-la logo após o comportamento aproxima comportamento e consequência no tempo. Se ela funciona como reforço, o gráfico vai mostrar nas próximas oportunidades.</p>`,
+        [['DEPOIS','white'],['APLIQUEI ✔','red',()=>{ e.cons=1; save(); SFX.coin(); renderReg(); toast('Consequência registrada.'); }]]);
+    } else if(!e.criterio){
+      modal('FALHOU E REGISTROU',
+        `<img src="${IMG.shrug}" alt="Boatacon dando de ombros"><p>Desta vez o critério não foi atingido. Registrar mesmo assim rendeu <b>+${gx} XP</b> e <b>+${gain} ficha</b>.</p><p>O que estava presente (ou ausente) antes desta oportunidade? Anotar os antecedentes ajuda a separar observação de hipótese.</p>`,
+        [['CONTINUAR','']]);
+    } else {
+      modal('CRITÉRIO ATINGIDO!', `<img src="${IMG.party}" alt="Boatacon comemorando"><p><b>+${gx} XP</b> e <b>+${gain} fichas</b>. Troque suas fichas na aba FICHAS, quando quiser.</p>`, [['CONTINUAR','']]);
+    }
+  };
+}
+
+/* ---------------- GRÁFICO ---------------- */
+function drawChart(cv, log, opts={}){
+  const ctx=cv.getContext('2d'), W=cv.width, H=cv.height;
+  const m={l:62,r:20,t:36,b:56};
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  ctx.font='bold 14px "IBM Plex Sans", sans-serif'; ctx.fillStyle='#0b0b0d';
+  if(!log.length){ ctx.textAlign='center'; ctx.font='12px "Press Start 2P", monospace'; ctx.fillText('SEM REGISTROS AINDA', W/2, H/2); return; }
+  const meta = opts.metaNum!==undefined && opts.metaNum!=='' && !isNaN(+opts.metaNum) ? +opts.metaNum : null;
+  let ymax=Math.max(1, ...log.map(e=>+e.valor||0), meta??0); ymax = ymax<=1?1:Math.ceil(ymax*1.15);
+  const n=log.length, pw=W-m.l-m.r, phh=H-m.t-m.b;
+  const X=i=> m.l + (n===1? pw/2 : (i+.5)*pw/n);
+  const Y=v=> m.t + phh - (v/ymax)*phh;
+  // eixos
+  ctx.strokeStyle='#0b0b0d'; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(m.l,m.t-6); ctx.lineTo(m.l,m.t+phh); ctx.lineTo(W-m.r,m.t+phh); ctx.stroke();
+  ctx.font='13px "IBM Plex Sans", sans-serif'; ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.lineWidth=1;
+  const ticks = ymax<=1?[0,1]:[0,ymax/4,ymax/2,3*ymax/4,ymax];
+  ticks.forEach(t=>{ const y=Y(t); ctx.fillText(+t.toFixed(1), m.l-8, y); ctx.strokeStyle='#e6e6e6'; ctx.beginPath(); ctx.moveTo(m.l+2,y); ctx.lineTo(W-m.r,y); ctx.stroke(); });
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  const step=Math.ceil(n/20);
+  log.forEach((e,i)=>{ if(i%step===0) ctx.fillText(i+1, X(i), m.t+phh+8); });
+  ctx.fillText('Oportunidade', m.l+pw/2, H-24);
+  ctx.save(); ctx.translate(16, m.t+phh/2); ctx.rotate(-Math.PI/2); ctx.fillText(opts.unit||'Medida', 0, -6); ctx.restore();
+  // meta
+  if(meta!==null){ ctx.strokeStyle='#1d4fd8'; ctx.lineWidth=2; ctx.setLineDash([2,4]); ctx.beginPath(); ctx.moveTo(m.l,Y(meta)); ctx.lineTo(W-m.r,Y(meta)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#1d4fd8'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText('critério '+meta, W-m.r-4, Y(meta)-3); }
+  // fases
+  const lbl={inicial:'INICIAL',intervencao:'INTERVENÇÃO',acompanhamento:'ACOMPANHAMENTO'};
+  const segs=[]; log.forEach((e,i)=>{ if(!segs.length||segs[segs.length-1].et!==e.etapa) segs.push({et:e.etapa,a:i,b:i}); else segs[segs.length-1].b=i; });
+  ctx.font='10px "Press Start 2P", monospace'; ctx.textBaseline='top'; ctx.textAlign='center'; ctx.fillStyle='#0b0b0d';
+  segs.forEach((s,k)=>{
+    if(k>0){ const x=(X(s.a-1)+X(s.a))/2; ctx.strokeStyle='#0b0b0d'; ctx.lineWidth=2; ctx.setLineDash([8,6]); ctx.beginPath(); ctx.moveTo(x,m.t-8); ctx.lineTo(x,m.t+phh); ctx.stroke(); ctx.setLineDash([]); }
+    const xa=k>0?(X(s.a-1)+X(s.a))/2:m.l, xb=k<segs.length-1?(X(s.b)+X(s.b+1))/2:W-m.r;
+    ctx.fillStyle='#0b0b0d'; ctx.fillText(lbl[s.et], (xa+xb)/2, 10);
+  });
+  // linhas por segmento
+  segs.forEach(s=>{ ctx.strokeStyle='#0b0b0d'; ctx.lineWidth=3; ctx.beginPath(); for(let i=s.a;i<=s.b;i++){ const x=X(i), y=Y(+log[i].valor||0); i===s.a?ctx.moveTo(x,y):ctx.lineTo(x,y);} ctx.stroke(); });
+  // pontos
+  log.forEach((e,i)=>{ const x=X(i), y=Y(+e.valor||0); ctx.beginPath(); ctx.rect(x-7,y-7,14,14);
+    ctx.fillStyle=e.criterio?'#e10f2a':'#fff'; ctx.fill(); ctx.lineWidth=3; ctx.strokeStyle='#0b0b0d'; ctx.stroke(); });
+}
+function phaseStats(log){
+  const out={};
+  ['inicial','intervencao','acompanhamento'].forEach(t=>{
+    const L=log.filter(e=>e.etapa===t);
+    out[t]={n:L.length, media:L.length?L.reduce((a,e)=>a+(+e.valor||0),0)/L.length:null, crit:L.length?L.filter(e=>e.criterio).length/L.length:null,
+      exec:L.filter(e=>e.exec==='sim').length, parc:L.filter(e=>e.exec==='parcial').length, nao:L.filter(e=>e.exec==='nao').length};
+  });
+  return out;
+}
+const fmt = v => v===null?'—':(Math.round(v*100)/100).toLocaleString('pt-BR');
+function renderGraph(){
+  drawChart($('#chart'), S.log, {metaNum:P('metaNum'), unit:P('unidade')||'Medida'});
+  const st=phaseStats(S.log);
+  $('#stats').innerHTML=['inicial','intervencao','acompanhamento'].map(t=>{
+    const s=st[t];
+    return `<div class="statbox"><div class="k">${ETAPA_LBL[t].toUpperCase()} · ${s.n} OPORT.</div><div class="v">${fmt(s.media)}</div><div class="s">média da medida · critério em ${s.crit===null?'—':Math.round(s.crit*100)+'%'} das oportunidades${t!=='inicial'&&s.n?` · intervenção: ${s.exec} sim, ${s.parc} parcial, ${s.nao} não`:''}</div></div>`;
+  }).join('');
+  const a=st.inicial, b=st.intervencao, c=st.acompanhamento;
+  let read=[];
+  if(!S.log.length) read.push('Assim que houver registros, a leitura aparece aqui.');
+  else{
+    if(a.n<3) read.push(`A observação inicial tem ${a.n} oportunidade${a.n===1?'':'s'}. Com menos de três pontos, a referência para comparação é frágil.`);
+    else read.push(`A observação inicial tem ${a.n} oportunidades: é a sua referência.`);
+    if(b.n){
+      const d=b.media-a.media;
+      read.push(`Na intervenção, a média da medida foi ${fmt(b.media)} (inicial: ${fmt(a.media)}; diferença de ${fmt(d)}). O critério foi atingido em ${Math.round(b.crit*100)}% das oportunidades (inicial: ${a.crit===null?'—':Math.round(a.crit*100)+'%'}).`);
+      if(b.nao+b.parc>0) read.push(`Atenção: em ${b.nao+b.parc} oportunidade(s) a intervenção não foi executada integralmente. Antes de concluir que ela “não funcionou”, verifique se ela de fato ocorreu.`);
+      if(b.n<3) read.push('Ainda são poucos pontos na intervenção para falar em tendência.');
+    } else read.push('Ainda não há registros na intervenção.');
+    if(c.n) read.push(`No acompanhamento, média ${fmt(c.media)}, critério em ${Math.round(c.crit*100)}% das oportunidades.`);
+    read.push('Lembre: uma diferença entre etapas é compatível com o efeito da intervenção, mas outras condições (agenda, clima, saúde, provas) também mudam ao longo do tempo. Use o campo “outras condições” da Fase 5.');
+  }
+  $('#graphRead').innerHTML=read.map(r=>`<p>${esc(r)}</p>`).join('');
+  const pose = b.n && b.crit>(a.crit??0) ? 'party' : (S.log.length?'think':'shrug');
+  npc('Graf', pose, S.log.length
+    ? 'Observar, intervir, observar: o algoritmo básico da ciência. Olhe nível, tendência e variabilidade em cada etapa antes de concluir qualquer coisa.'
+    : 'Sem dados não há gráfico, e sem gráfico não dá para saber se a consequência foi reforço. Comece pela aba REGISTRO.');
+}
+
+/* ---------------- LOJA ---------------- */
+function renderShop(){
+  $('#coinsBig').textContent=coins();
+  $('#coinsDetail').textContent=`${coinsEarned()} ganhas · ${coinsSpent()} trocadas`;
+  $('#shop').innerHTML = S.shop.map(it=>`<div class="item"><div class="n">${esc(it.nome)}</div><div class="p">◉ ${it.preco} FICHAS</div>
+     <div class="row"><button class="btn small ${coins()>=it.preco?'red':'white'}" data-buy="${it.id}" ${coins()>=it.preco?'':'disabled'}>TROCAR</button><button class="btn small white" data-rm="${it.id}" title="Remover">✕</button></div></div>`).join('') || '<p class="hint">Crie sua primeira consequência abaixo.</p>';
+  $$('#shop [data-buy]').forEach(b=>b.onclick=()=>{
+    const it=S.shop.find(x=>x.id===b.dataset.buy); if(!it||coins()<it.preco) return;
+    S.compras.push({nome:it.nome, preco:it.preco, data:new Date().toLocaleDateString('pt-BR')}); save(); SFX.buy();
+    floatTxt(`-${it.preco} ◉`, b); toast(`Trocado: ${it.nome}. Aproveite agora, perto do comportamento.`); renderAll(); checkBadges();
+  });
+  $$('#shop [data-rm]').forEach(b=>b.onclick=()=>{ S.shop=S.shop.filter(x=>x.id!==b.dataset.rm); save(); renderShop(); });
+  $('#shopHist').innerHTML = S.compras.length ? '<ul>'+S.compras.slice().reverse().map(c=>`<li>${esc(c.data)}: ${esc(c.nome)} (◉ ${c.preco})</li>`).join('')+'</ul>' : 'Nenhuma troca ainda.';
+  npc('Loja','coffee','Uma economia de fichas: fichas são consequências imediatas e portáteis, trocadas depois por coisas que importam para você. Defina os preços com honestidade. Se tudo for barato demais, nada muda; caro demais, você desiste.');
+}
+
+/* ---------------- CONQUISTAS ---------------- */
+function renderBadges(){
+  const li=level();
+  $('#levels').innerHTML=LEVELS.map((l,i)=>`<span class="${i===li?'on':''}">NV ${i+1} · ${esc(l[1])} · ${l[0]} XP</span>`).join('');
+  $('#badges').innerHTML=BADGES.map(b=>{ const ok=b.test(); return `<div class="badge ${ok?'':'locked'}"><div class="ico">${b.ico}</div><div class="n">${b.n}</div><div class="d">${esc(b.d)}</div></div>`; }).join('');
+  const got=BADGES.filter(b=>b.test()).length;
+  npc('Conq', got>=8?'party':'idea', `Você tem <b>${got}</b> de ${BADGES.length} conquistas e está no nível <b>${esc(LEVELS[li][1])}</b>. Repare: há conquistas por registrar falhas, não só por acertar.`);
+}
+
+/* ---------------- COMPARTILHAMENTO ---------------- */
+function b64e(obj){ const s=JSON.stringify(obj); const bytes=new TextEncoder().encode(s); let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function b64d(str){ str=str.trim().replace(/-/g,'+').replace(/_/g,'/'); while(str.length%4) str+='='; const bin=atob(str); const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0)); return JSON.parse(new TextDecoder().decode(bytes)); }
+function myCard(){
+  const c={v:13, id:S.cid||(S.cid=uid()), n:S.share.name&&S.name?S.name.slice(0,40):'', t:S.share.name?S.turma:'', lv:level()+1, bd:BADGES.filter(b=>b.test()).length, at:new Date().toLocaleDateString('pt-BR')};
+  if(S.share.plan) c.p={i:P('intencao'),pp:P('pinpoint'),c:P('conta'),nc:P('naoConta'),m:MEDIDAS[P('medida')]?MEDIDAS[P('medida')].split(' (')[0]+(P('unidade')?' — '+P('unidade'):''):P('unidade'),mt:P('meta'),iv:P('intervencao'),cs:P('consequencia')};
+  if(S.share.res) c.r=S.log.map(e=>[({inicial:0,intervencao:1,acompanhamento:2})[e.etapa], +e.valor||0, e.criterio?1:0, ({na:0,sim:1,parcial:2,nao:3})[e.exec], e.evid?1:0]);
+  return c;
+}
+function profCard(){
+  return {v:13, id:'prof', prof:1, n:PROF.nome, t:PROF.turma, lv:'★', bd:'★', at:'',
+    p:{i:PROF.plan.intencao, pp:PROF.plan.pinpoint, c:PROF.plan.conta, nc:PROF.plan.naoConta, m:PROF.plan.medida, mt:PROF.plan.meta, iv:PROF.plan.intervencao, cs:PROF.plan.consequencia},
+    r:PROF.log.map(e=>[({inicial:0,intervencao:1,acompanhamento:2})[e.etapa], e.valor, e.criterio, ({na:0,sim:1,parcial:2,nao:3})[e.exec], e.evid]),
+    notes:PROF.log.map(e=>e.nota)};
+}
+function miniSvg(r){
+  if(!r||!r.length) return '';
+  const W=300,H=110,ml=8,mr=8,mt=18,mb=10, n=r.length;
+  const ymax=Math.max(1,...r.map(x=>+x[1]||0));
+  const X=i=>ml+(n===1?(W-ml-mr)/2:(i+.5)*(W-ml-mr)/n), Y=v=>mt+(H-mt-mb)*(1-v/ymax);
+  const names=['INICIAL','INTERV.','ACOMP.'];
+  let segs=[]; r.forEach((x,i)=>{ if(!segs.length||segs[segs.length-1].e!==x[0]) segs.push({e:x[0],a:i,b:i}); else segs[segs.length-1].b=i; });
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mini gráfico dos registros">`;
+  segs.forEach((g,k)=>{
+    if(k>0){ const x=(X(g.a-1)+X(g.a))/2; s+=`<line x1="${x}" y1="4" x2="${x}" y2="${H-4}" stroke="#000" stroke-width="1.5" stroke-dasharray="4 3"/>`; }
+    const xa=k>0?(X(g.a-1)+X(g.a))/2:ml, xb=k<segs.length-1?(X(g.b)+X(g.b+1))/2:W-mr;
+    s+=`<text x="${(xa+xb)/2}" y="11" font-family="Press Start 2P, monospace" font-size="6" text-anchor="middle">${names[g.e]||''}</text>`;
+    s+=`<polyline fill="none" stroke="#000" stroke-width="2" points="${r.slice(g.a,g.b+1).map((x,j)=>X(g.a+j)+','+Y(+x[1]||0)).join(' ')}"/>`;
+  });
+  r.forEach((x,i)=>{ s+=`<rect x="${X(i)-4}" y="${Y(+x[1]||0)-4}" width="8" height="8" fill="${x[2]?'#e10f2a':'#fff'}" stroke="#000" stroke-width="2"/>`; });
+  return s+'</svg>';
+}
+function cardHtml(c, actions){
+  const who = c.n ? esc(c.n) : 'Anônimo(a)';
+  const p=c.p, r=Array.isArray(c.r)?c.r:null;
+  const hits = r ? r.filter(x=>x[2]).length : 0;
+  let body=`<div class="who">${who}</div>`;
+  if(c.t) body+=`<div class="hint" style="color:var(--muted)">${esc(c.t)}</div>`;
+  if(p){
+    if(p.i) body+=`<div class="k">INTENÇÃO</div><div>${esc(p.i)}</div>`;
+    if(p.pp) body+=`<div class="k">PINPOINT</div><div>${esc(p.pp)}</div>`;
+    if(p.c||p.nc) body+=`<div class="k">CONTA / NÃO CONTA</div><div>✔ ${esc(p.c||'—')}<br>✕ ${esc(p.nc||'—')}</div>`;
+    if(p.m) body+=`<div class="k">MEDIDA</div><div>${esc(p.m)}</div>`;
+    if(p.mt) body+=`<div class="k">META</div><div>${esc(p.mt)}</div>`;
+    if(p.iv) body+=`<div class="k">INTERVENÇÃO</div><div>${esc(p.iv)}</div>`;
+    if(p.cs) body+=`<div class="k">CONSEQUÊNCIA PROGRAMADA</div><div>${esc(p.cs)}</div>`;
+  } else body+=`<div class="hint" style="color:var(--muted)">Plano não compartilhado.</div>`;
+  if(r && r.length){
+    body+=`<div class="k">RESULTADOS · ${r.length} OPORT. · CRITÉRIO EM ${hits}</div>${miniSvg(r)}`;
+    if(c.notes) body+=`<ol style="margin:4px 0 0;padding-left:20px">${c.notes.map((t,i)=>`<li>${esc(t)}${r[i]&&r[i][4]?' 📸':''}</li>`).join('')}</ol>`;
+  } else body+=`<div class="hint" style="color:var(--muted)">Resultados não compartilhados.</div>`;
+  return `<div class="cart"><div class="top ${c.prof?'prof':''}"><span>${c.prof?'★ CARTUCHO DO PROFESSOR':'CARTUCHO · VOL.13'}</span><span>NV ${esc(c.lv)} · ${esc(c.bd)} ★${c.at?' · '+esc(c.at):''}</span></div><div class="body">${body}</div>${actions?`<div class="foot">${actions}</div>`:''}</div>`;
+}
+function renderMural(){
+  $('#shName').checked=S.share.name; $('#shPlan').checked=S.share.plan; $('#shRes').checked=S.share.res;
+  const c=myCard();
+  $('#myPreview').innerHTML = `<div class="k" style="font-family:var(--pix);font-size:8px;margin-bottom:6px">PRÉVIA DO SEU CARTUCHO (É EXATAMENTE ISTO QUE SERÁ VISTO)</div>`+cardHtml(c);
+  const any=S.share.plan||S.share.res;
+  $('#shareOut').innerHTML = any
+    ? `<div class="row"><button class="btn small red" id="btnGen">GERAR CÓDIGO E LINK</button><button class="btn small white" id="btnCardPng">BAIXAR CARTUCHO (PNG)</button></div><div id="genOut"></div>`
+    : `<div class="notice">Seu cartucho está privado. Para compartilhar, ligue ao menos “plano” ou “resultados”. Não compartilhar é uma escolha válida e não afeta sua nota.</div>`;
+  $('#btnGen') && ($('#btnGen').onclick=()=>{
+    const code=b64e(myCard()); const link=location.href.split('#')[0]+'#c='+code;
+    S.shared=true; save(); checkBadges(); renderHud(); SFX.coin();
+    $('#genOut').innerHTML=`<div class="field" style="margin-top:12px"><label>Link (envie por WhatsApp, Classroom, e-mail…)</label><textarea class="code" readonly id="outLink">${esc(link)}</textarea></div>
+      <div class="row"><button class="btn small" id="cpLink">COPIAR LINK</button><button class="btn small white" id="cpCode">COPIAR SÓ O CÓDIGO</button></div>
+      <div class="notice red">O código contém só o que aparece na prévia. Se você mudar algo, gere um novo código: o antigo continua mostrando a versão antiga.</div>`;
+    $('#cpLink').onclick=()=>copy(link,'Link copiado.');
+    $('#cpCode').onclick=()=>copy(code,'Código copiado.');
+  });
+  $('#btnCardPng') && ($('#btnCardPng').onclick=()=>downloadCardPng(myCard()));
+  // mural
+  const prof=profCard();
+  $('#mural').innerHTML = cardHtml(prof) + S.mural.map(m=>cardHtml(m, `<span class="hint" style="font-size:12px;color:var(--muted)">adicionado em ${esc(m._added||'')}</span><button class="btn small white" data-unpin="${esc(m.id)}">REMOVER</button>`)).join('');
+  $$('#mural [data-unpin]').forEach(b=>b.onclick=()=>{ S.mural=S.mural.filter(m=>m.id!==b.dataset.unpin); save(); renderMural(); });
+  npc('Mural','phone','Expor seu pinpoint é uma intervenção em si: acrescenta plateia às suas falhas e acertos. O professor está usando exatamente isso. Mas a escolha é sua: dá para jogar tudo em modo privado.');
+}
+function copy(txt,msg){
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(msg)).catch(()=>{
+    const t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy'); toast(msg);}catch(e){ toast('Selecione e copie manualmente.'); } t.remove();
+  });
+}
+function sanitizeCard(c){
+  if(!c||typeof c!=='object') throw 0;
+  const s=x=>typeof x==='string'?x.slice(0,400):'';
+  const out={v:13, id:s(c.id)||uid(), n:s(c.n).slice(0,40), t:s(c.t).slice(0,40), lv:String(c.lv??'').slice(0,3), bd:String(c.bd??'').slice(0,3), at:s(c.at).slice(0,12)};
+  if(c.p&&typeof c.p==='object'){ out.p={}; ['i','pp','c','nc','m','mt','iv','cs'].forEach(k=>out.p[k]=s(c.p[k])); }
+  if(Array.isArray(c.r)) out.r=c.r.slice(0,200).filter(Array.isArray).map(x=>[ [0,1,2].includes(+x[0])?+x[0]:0, isFinite(+x[1])?+x[1]:0, x[2]?1:0, [0,1,2,3].includes(+x[3])?+x[3]:0, x[4]?1:0 ]);
+  return out;
+}
+function parseIncoming(txt){
+  txt=(txt||'').trim(); const i=txt.indexOf('#c='); if(i>=0) txt=txt.slice(i+3);
+  return sanitizeCard(b64d(txt));
+}
+function addCard(c){
+  if(c.id===S.cid){ toast('Este é o seu próprio cartucho.'); return; }
+  c._added=new Date().toLocaleDateString('pt-BR');
+  const i=S.mural.findIndex(m=>m.id===c.id);
+  if(i>=0){ S.mural[i]=c; toast('Cartucho atualizado no mural.'); } else { S.mural.push(c); toast('Cartucho adicionado ao mural.'); }
+  save(); SFX.coin(); renderMural(); checkBadges(); renderHud();
+}
+function wrapText(ctx, text, x, y, maxW, lh, maxLines){
+  const words=String(text).split(/\s+/); let line='', lines=0;
+  for(const w of words){ const t=line?line+' '+w:w; if(ctx.measureText(t).width>maxW && line){ ctx.fillText(line,x,y); y+=lh; line=w; if(++lines>=maxLines-1){ line+='…'; break; } } else line=t; }
+  if(line){ ctx.fillText(line,x,y); y+=lh; } return y;
+}
+function downloadCardPng(c){
+  const cv=document.createElement('canvas'); cv.width=1080; cv.height=1350; const g=cv.getContext('2d');
+  g.fillStyle='#000'; g.fillRect(0,0,1080,1350);
+  g.strokeStyle='#fff'; g.lineWidth=3; for(let x=0;x<=1080;x+=45){ g.beginPath(); g.moveTo(x,0); g.lineTo(x,1350); g.stroke(); } for(let y=0;y<=1350;y+=45){ g.beginPath(); g.moveTo(0,y); g.lineTo(1080,y); g.stroke(); }
+  g.fillStyle='#fff'; g.fillRect(40,40,260,90); g.fillStyle='#000'; g.font='48px "Russo One"'; g.textBaseline='middle'; g.fillText('CRIA',60,86); g.fillStyle='#e10f2a'; g.fillText('COM',60+g.measureText('CRIA').width,86);
+  g.fillStyle='#e10f2a'; g.fillRect(300,40,740,90); g.fillStyle='#fff'; g.font='22px "Press Start 2P"'; g.textAlign='right'; g.fillText('MICROJOGOS VOL. 13',1015,86); g.textAlign='left';
+  g.font='italic 84px "Russo One"'; g.fillStyle='#1d4fd8'; g.fillText('FAÇA SEU PINPOINT!',56,214); g.fillStyle='#e10f2a'; g.fillText('FAÇA SEU PINPOINT!',50,208); g.fillStyle='#fff'; g.fillText('FAÇA SEU PINPOINT!',44,202);
+  g.fillStyle='#fff'; g.fillRect(40,270,1000,1030); g.strokeStyle='#000'; g.lineWidth=6; g.strokeRect(40,270,1000,1030);
+  g.fillStyle='#000'; g.textBaseline='top'; g.font='48px "Russo One"'; g.fillText(c.n||'Anônimo(a)',80,300);
+  g.font='18px "Press Start 2P"'; g.fillStyle='#e10f2a'; g.fillText(`NÍVEL ${c.lv} · ${c.bd} CONQUISTAS${c.t?' · '+c.t:''}`,80,365);
+  let y=420; g.fillStyle='#000';
+  const block=(k,v,lines)=>{ if(!v) return; g.font='16px "Press Start 2P"'; g.fillStyle='#e10f2a'; g.fillText(k,80,y); y+=30; g.font='28px "IBM Plex Sans"'; g.fillStyle='#000'; y=wrapText(g,v,80,y,920,38,lines)+14; };
+  if(c.p){ block('PINPOINT',c.p.pp,3); block('MEDIDA',c.p.m,2); block('META',c.p.mt,2); block('INTERVENÇÃO',c.p.iv,3); }
+  else { g.font='26px "IBM Plex Sans"'; g.fillStyle='#555'; g.fillText('Plano não compartilhado.',80,y); y+=50; }
+  if(c.r && c.r.length){
+    const tmp=document.createElement('canvas'); tmp.width=1000; tmp.height=400;
+    const log=c.r.map(x=>({etapa:['inicial','intervencao','acompanhamento'][x[0]], valor:x[1], criterio:x[2]}));
+    drawChart(tmp, log, {unit:'Medida'});
+    const h=Math.min(380, 1280-y); if(h>160) g.drawImage(tmp, 80, Math.max(y,860), 920, h*0.92);
+  }
+  g.fillStyle='#fff'; g.font='14px "Press Start 2P"'; g.textBaseline='alphabetic'; g.fillText('OBSERVAR · INTERVIR · OBSERVAR   ·   6PAC099 · UEL',40,1335);
+  cv.toBlob(b=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='cartucho-pinpoint.png'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); });
+}
+
+/* ---------------- RELATÓRIO ---------------- */
+function reportText(){
+  const L=[]; const add=(k,v)=>L.push(`${k}: ${v||'[a preencher]'}`);
+  L.push(`VL4 · Aplique um pinpoint na sua vida · 6PAC099`); L.push(`${S.name||'[nome]'}${S.turma?' · '+S.turma:''}`); L.push('');
+  L.push('1. DA INTENÇÃO AO COMPORTAMENTO');
+  add('Intenção',P('intencao')); add('Por que importa',P('porque')); add('Pinpoint',P('pinpoint')); add('Quando',P('quando')); add('Onde',P('onde'));
+  add('Conta como ocorrência',P('conta')); add('Não conta',P('naoConta')); if(P('sentido')==='reduzir') add('Comportamento alternativo',P('alternativo')); L.push('');
+  L.push('2. MEDIDA E META');
+  add('Tipo de medida',MEDIDAS[P('medida')]); add('Unidade de registro',P('unidade')); add('Meta',P('meta')); L.push('');
+  L.push('3. OBSERVAÇÃO INICIAL');
+  add('Duração/oportunidades',P('numOport')); add('Situações observadas',P('situacoes')); add('Onde anoto',P('ondeAnoto'));
+  add('Antecedentes registrados',P('antecedentes')); add('Consequentes registrados',P('consequentes')); if(P('contexto')) add('Contexto',P('contexto'));
+  add('Observações (registros)',P('observacoes')||'(ainda não realizada)'); add('Hipóteses (a investigar)',P('hipoteses')); L.push('');
+  L.push('4. INTERVENÇÃO');
+  add('Mudança principal',({acrescentar:'acrescentar',retirar:'retirar',reorganizar:'reorganizar'})[P('intervTipo')]); add('O que muda',P('intervencao')); add('Quando',P('intervQuando'));
+  add('Por que pode favorecer o comportamento',P('intervPorque')); add('Como verifico a execução',P('intervVerif'));
+  if(P('consequencia')) add('Consequência programada',P('consequencia')+(P('consequenciaQuando')?' ('+P('consequenciaQuando')+')':'')); L.push('');
+  L.push('5. NOVA OBSERVAÇÃO');
+  add('Período de acompanhamento',P('followPeriodo')); add('Comparação e mudança relevante',P('mudancaRelevante')); add('Outras condições',P('outrasCondicoes')); add('O que revisaria',P('revisaria')); L.push('');
+  if(S.log.length){
+    const st=phaseStats(S.log);
+    L.push('TABELA DE REGISTRO');
+    L.push('# | Data | Etapa | Medida | Critério | Condições (antes/depois) | Intervenção executada?');
+    S.log.forEach((e,i)=>L.push(`${i+1} | ${e.data||'—'} | ${ETAPA_LBL[e.etapa]} | ${e.valor} | ${e.criterio?'sim':'não'} | ${[e.antes&&'antes: '+e.antes,e.depois&&'depois: '+e.depois,e.nota].filter(Boolean).join('; ')||'—'} | ${EXEC_LBL[e.exec]}`));
+    L.push('');
+    L.push('RESUMO POR ETAPA (dados registrados)');
+    ['inicial','intervencao','acompanhamento'].forEach(t=>{ const s=st[t]; if(s.n) L.push(`${ETAPA_LBL[t]}: ${s.n} oportunidades; média ${fmt(s.media)}; critério atingido em ${Math.round(s.crit*100)}%.`); });
+    L.push('');
+  } else { L.push('REGISTROS: a intervenção foi apenas planejada (colocá-la em prática é opcional).'); L.push(''); }
+  L.push('USO DE IA'); L.push(P('usoIA')||'[indique se e como usou IA]');
+  return L.join('\n');
+}
+function renderReport(){
+  $('#usoIA').value=S.plan.usoIA||'';
+  $('#report').value=reportText();
+  const done=PHASES.filter(p=>phasePct(p)>=1).length;
+  npc('Rel', done===5?'ok':'point', done===5
+    ? 'Plano completo. Agora reescreva com suas palavras, corte o que sobra e confira: observação, hipótese e resultado esperado estão separados? Não invente dados.'
+    : `Faltam campos obrigatórios em ${5-done} fase(s). O rascunho marca o que falta com [a preencher].`);
+}
+
+/* ---------------- navegação ---------------- */
+const RENDER = {plano:renderPlan, registro:renderReg, grafico:renderGraph, loja:renderShop, conquistas:renderBadges, mural:renderMural, relatorio:renderReport};
+let cur='plano';
+function go(t){
+  cur=t; $$('#tabs button').forEach(b=>b.classList.toggle('on', b.dataset.t===t));
+  $$('.screen').forEach(s=>s.classList.toggle('on', s.id==='s-'+t));
+  RENDER[t](); renderHud(); SFX.blip(); scrollTo({top:0,behavior:'smooth'});
+}
+function renderAll(){ RENDER[cur](); renderHud(); }
+
+/* ---------------- inicialização ---------------- */
+function init(){
+  $('#inName').value=S.name; $('#inTurma').value=S.turma;
+  $('#btnStart').onclick=()=>{
+    S.name=$('#inName').value.trim(); S.turma=$('#inTurma').value; S.started=true; save();
+    SFX.start(); $('#cover').style.display='none'; renderAll();
+    if(!S.seenIntro){ S.seenIntro=true; save();
+      modal('BEM-VINDO(A) AO LABORATÓRIO', `<img src="${IMG.ok}" alt="Boatacon com polegar para cima"><p>Aqui você transforma uma intenção em um <b>pinpoint</b>, registra cada oportunidade e consequencia o que acontece.</p><p>1) <b>PLANO</b>: cinco fases, iguais ao roteiro da VL4.<br>2) <b>REGISTRO</b>: cada oportunidade, inclusive as falhas.<br>3) <b>GRÁFICO</b>: observar, intervir, observar.<br>4) <b>FICHAS</b>: troque por consequências que você define.<br>5) <b>CONQUISTAS</b>: inclusive por registrar falhas.<br>6) <b>MURAL</b>: compartilhe, se quiser.<br>7) <b>RELATÓRIO</b>: rascunho da entrega.</p><p>Meu pinpoint de exemplo está em cada fase e no mural: começar a fazer exercícios. Duas idas planejadas não aconteceram; a terceira aconteceu.</p>`, [['VAMOS!','red']]);
+    }
+  };
+  $('#logo').onclick=()=>{ $('#cover').style.display='block'; };
+  $('#btnMute').onclick=()=>{ S.muted=!S.muted; save(); renderHud(); };
+  $$('#tabs button').forEach(b=>b.onclick=()=>go(b.dataset.t));
+  initReg(); setEtapa(lastEtapa());
+  $('#btnChartPng').onclick=()=>{ $('#chart').toBlob(b=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='grafico-pinpoint.png'; a.click(); }); };
+  $('#btnShopAdd').onclick=()=>{
+    const n=$('#shopName').value.trim(), p=Math.max(1,Math.min(99,+$('#shopPrice').value||1));
+    if(!n){ toast('Dê um nome à consequência.'); return; }
+    S.shop.push({id:uid(), nome:n.slice(0,60), preco:p}); $('#shopName').value=''; save(); SFX.blip(); renderShop();
+  };
+  ['shName','shPlan','shRes'].forEach(id=>$('#'+id).onchange=e=>{ S.share[{shName:'name',shPlan:'plan',shRes:'res'}[id]]=e.target.checked; save(); renderMural(); });
+  $('#btnAddCard').onclick=()=>{ try{ addCard(parseIncoming($('#pasteCode').value)); $('#pasteCode').value=''; }catch(e){ toast('Código inválido. Copie o código ou link completo.'); SFX.fail(); } };
+  $('#usoIA').oninput=e=>{ S.plan.usoIA=e.target.value; save(); $('#report').value=reportText(); };
+  $('#btnCopyRep').onclick=()=>copy(reportText(),'Texto copiado.');
+  $('#btnDlRep').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([reportText()],{type:'text/plain;charset=utf-8'})); a.download='VL4-pinpoint-rascunho.txt'; a.click(); };
+  $('#btnSave').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'})); a.download='salvamento-pinpoint-vol13.json'; a.click(); };
+  $('#loadFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d||!Array.isArray(d.log)) throw 0; S=Object.assign(DEF(),d); save(); toast('Salvamento carregado.'); renderAll(); }catch(err){ toast('Arquivo de salvamento inválido.'); } }; r.readAsText(f); };
+  $('#btnReset').onclick=()=>modal('APAGAR TUDO?', 'Plano, registros, fotos, fichas, conquistas e mural deste navegador serão apagados. Considere baixar um salvamento antes.', [['CANCELAR','white'],['APAGAR','red',()=>{ localStorage.removeItem(KEY); S=DEF(); location.hash=''; location.reload(); }]]);
+  $('#modal').onclick=e=>{ if(e.target.id==='modal') closeModal(); };
+
+  // cartucho recebido por link
+  const h=location.hash.match(/#c=([A-Za-z0-9_-]+)/);
+  if(h){
+    try{
+      const c=parseIncoming(h[1]);
+      $('#cover').style.display='none'; go('mural');
+      modal('VOCÊ RECEBEU UM CARTUCHO', `<p>Um(a) colega compartilhou o cartucho abaixo. Quer guardá-lo no seu mural?</p>${cardHtml(c)}`, [['AGORA NÃO','white'],['ADICIONAR AO MURAL','red',()=>addCard(c)]]);
+      history.replaceState(null,'',location.pathname+location.search);
+    }catch(e){ toast('O link recebido não contém um cartucho válido.'); }
+  }
+  renderPlan(); renderHud();
+}
+init();
+</script>
+</body>
+</html>
